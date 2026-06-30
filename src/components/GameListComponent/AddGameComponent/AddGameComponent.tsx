@@ -58,6 +58,7 @@ const AddGameComponent: FC<AddGameComponentProps> = ({ onGameAdded }) => {
           onChange={(e) => setGameTitle(e.target.value)} 
           placeholder="Game Name"
           required
+          maxLength={100}
         />
 
         <RatingInput

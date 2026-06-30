@@ -17,4 +17,5 @@ export const RatingInput = styled.input`
 export const AddGame = styled.button`
     width: 10%;
     height: 30px;
+    cursor: pointer;
 `

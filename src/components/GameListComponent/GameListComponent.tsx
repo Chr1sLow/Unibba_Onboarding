@@ -1,5 +1,5 @@
 import { useState, useEffect, type FC } from 'react';
-import { GameListComponentWrapper } from './GameListComponent.styled';
+import { EmptyState, GameListComponentWrapper } from './GameListComponent.styled';
 import GameListItem from './GameListItem/GameListItem';
 import AddGameComponent from './AddGameComponent/AddGameComponent';
 import { GameItemMockDB } from '../../store/game-item/game-item.mock';
@@ -37,14 +37,20 @@ const GameListComponent: FC<GameListComponentProps> = () => {
          <h1>{(authStore.user as any)?.name}'s Game List</h1>
          <AddGameComponent onGameAdded={handleGameAdded}></AddGameComponent>
 
-         {gameData.map((item) => (
-         <GameListItem 
-            key={item.__id} 
-            game={item.game} 
-            rating={item.rating} 
-            createdAt={item._createdAt}
-         />
-         ))}
+         {gameData.length === 0 ? (
+            <EmptyState>
+               <p>Add games to your list</p>
+            </EmptyState>
+         ) : (
+         gameData.map((item) => (
+            <GameListItem 
+               key={item.__id} 
+               game={item.game} 
+               rating={item.rating} 
+               createdAt={item._createdAt}
+            />
+         ))
+         )}
       </GameListComponentWrapper>
    );
 };

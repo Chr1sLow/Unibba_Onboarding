@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { HomeComponentWrapper, Content } from './HomeComponent.styled';
+import { HomeComponentWrapper, Content, Login } from './HomeComponent.styled';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth/auth.store';
 
@@ -22,7 +22,7 @@ const HomeComponent: FC<HomeComponentProps> = () => {
       <HomeComponentWrapper>
          <Content>
             <h1>Welcome!</h1>
-            <button onClick={handleLogin}>Login</button>
+            <Login onClick={handleLogin}>Login</Login>
          </Content>
          
       </HomeComponentWrapper>

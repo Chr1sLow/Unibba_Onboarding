@@ -10,7 +10,6 @@ export const GameListItemWrapper = styled.div`
 `;
 
 export const Item = styled.div`
-    border: 1px solid white;
     padding: 16px;
     border-radius: 4px;
 `;

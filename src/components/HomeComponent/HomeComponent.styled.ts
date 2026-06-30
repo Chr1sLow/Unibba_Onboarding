@@ -11,3 +11,9 @@ export const Content = styled.div`
     flex-direction: column;
     height: 70vh;
 `;
+
+export const Login = styled.button`
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+`;
