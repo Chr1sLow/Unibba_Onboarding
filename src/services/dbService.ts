@@ -20,7 +20,8 @@ import {
   increment,
   getAggregateFromServer,
   getCountFromServer,
-  onSnapshot
+  onSnapshot,
+  deleteDoc
 } from 'firebase/firestore';
 
 import type { OrderByDirection, AggregateSpec, WriteBatch } from 'firebase/firestore';
@@ -309,15 +310,11 @@ export class FirebaseService {
 
   async removeEntity(collectionName: string, id: string, batch?: WriteBatch) {
     const docRef = doc(db, `${collectionName}/${id}`);
-    // we do soft deletes from client side
-    const changes = {
-      _updatedAt: serverTimestamp(),
-      _deleted: true,
-    };
+    
     if (batch) {
-      return batch.update(docRef, changes);
+      return batch.delete(docRef);
     } else {
-      return updateDoc(docRef, changes);
+      return deleteDoc(docRef);
     }
   }
 

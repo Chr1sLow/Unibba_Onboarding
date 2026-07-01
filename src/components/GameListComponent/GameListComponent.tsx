@@ -32,6 +32,18 @@ const GameListComponent: FC<GameListComponentProps> = () => {
       }
    };
 
+   const handleDelete = (deletedGameId: string) => {
+      if (import.meta.env.VITE_USE_MOCK_DB === 'true') {
+         // Delete from mockDB
+         GameItemMockDB.removeEntity(deletedGameId);
+
+         setGameData((prevData) => prevData.filter((game) => game.__id !== deletedGameId));
+      } else {
+         // Delete from firebase
+         dbService.removeEntity('games', deletedGameId);
+      }
+   }
+
    return (
       <GameListComponentWrapper>
          <h1>{(authStore.user as any)?.name}'s Game List</h1>
@@ -44,10 +56,12 @@ const GameListComponent: FC<GameListComponentProps> = () => {
          ) : (
          gameData.map((item) => (
             <GameListItem 
-               key={item.__id} 
+               key={item.__id}
+               id={item.__id}
                game={item.game} 
                rating={item.rating} 
                createdAt={item._createdAt}
+               onDelete={handleDelete}
             />
          ))
          )}

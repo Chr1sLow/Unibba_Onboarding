@@ -1,11 +1,20 @@
 import styled from 'styled-components';
 
+export const Delete = styled.button`
+    visibility: hidden;
+    cursor: pointer;
+`
+
 export const GameListItemWrapper = styled.div`
     border-radius: 4px;
 
     &:hover {
         background-color: purple;
         color: white;
+
+        ${Delete} {
+            visibility: visible;
+        }
     }
 `;
 
@@ -28,7 +37,7 @@ export const Name = styled.div`
 `
 
 export const Rating = styled.div`
-    width: 30%;
+    width: 20%;
 `
 
 export const Date = styled.div`
@@ -36,3 +45,5 @@ export const Date = styled.div`
     justify-content: center;
     font-size: 12px;
 `
+
+

@@ -38,4 +38,12 @@ export const GameItemMockDB = {
   addEntity: (item: GameItem) => {
     GameItem_DB.push(item);
   },
+
+  removeEntity: (id: string) => {
+    const index = GameItem_DB.findIndex((item) => item.__id === id);
+    
+    if (index !== -1) {
+      GameItem_DB.splice(index, 1);
+    }
+  },
 };
