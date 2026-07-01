@@ -97,7 +97,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Custom hook matching the Angular 'inject(AuthStore)' pattern
 export const useAuthStore = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
