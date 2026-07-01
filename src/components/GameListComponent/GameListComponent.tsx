@@ -12,19 +12,32 @@ interface GameListComponentProps {}
 const GameListComponent: FC<GameListComponentProps> = () => {
    const [gameData, setGameData] = useState<GameItem[]>([]);
    const authStore = useAuthStore();
+   const currentUser = authStore.user
+
+   // Get userId in mockDB or Firebase
+   const userId = currentUser 
+      ? ('uid' in currentUser ? currentUser.uid : currentUser.__id) 
+      : null;
 
    useEffect(() => {
+      // Wait for user to load
+      if (!userId) {
+         setGameData([]);
+         return;
+      }
+
       // Use mockDB
+      console.log(userId);
       if (import.meta.env.VITE_USE_MOCK_DB === 'true') {
-         setGameData(GameItemMockDB.getEntities());
+         setGameData(GameItemMockDB.findByUserId(userId!));
       } else {
          // Use Firebase
-         const unsubscribe = dbService.streamEntities<GameItem>('games', [], {}, (data) => {
+         const unsubscribe = dbService.streamEntities<GameItem>('games', [['__userId', '==', userId]], {}, (data) => {
             setGameData(data);
          });
          return () => unsubscribe();
       }
-   }, []);
+   }, [userId]);
 
    const handleGameAdded = (newGame: GameItem) => {
       if (import.meta.env.VITE_USE_MOCK_DB === 'true') {
