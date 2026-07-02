@@ -5,7 +5,7 @@ import type { Timestamp } from 'firebase/firestore';
 interface GameListItemProps {
    id: string,
    game: string,
-   status: string,
+   status?: string,
    rating: number,
    updatedAt?: Timestamp
    onDelete: (id: string) => void;
