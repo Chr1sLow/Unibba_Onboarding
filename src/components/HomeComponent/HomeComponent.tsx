@@ -21,7 +21,7 @@ const HomeComponent: FC<HomeComponentProps> = () => {
    return (
       <HomeComponentWrapper>
          <Content>
-            <h1>Welcome!</h1>
+            <h1>Welcome to GameList!</h1>
             <Login onClick={handleLogin}>Login</Login>
          </Content>
          

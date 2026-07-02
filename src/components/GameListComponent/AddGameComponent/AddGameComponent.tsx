@@ -25,6 +25,7 @@ const AddGameComponent: FC<AddGameComponentProps> = ({ onGameAdded }) => {
       __id: dbService.createId(),
       __userId: userId,
       game: gameTitle,
+      status: 'playing',
       rating: Number(rating),
       _createdAt: Timestamp.now(),
       _updatedAt: Timestamp.now(),

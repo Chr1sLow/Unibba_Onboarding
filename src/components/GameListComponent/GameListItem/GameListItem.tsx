@@ -36,7 +36,6 @@ const GameListItem: FC<GameListItemProps> = (props) => {
    }
 
    const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-      console.log(e.target.value);
       props.onStatusChange(props.id, e.target.value);
    }
    
@@ -46,9 +45,9 @@ const GameListItem: FC<GameListItemProps> = (props) => {
             <ItemData>
                <Name>{props.game}<Date>Updated on: {getDate}</Date></Name>
                <Status value={props.status} onChange={handleStatusChange}>
-                  <option value="Playing">Playing</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Dropped">Dropped</option>
+                  <option value="playing">Playing</option>
+                  <option value="completed">Completed</option>
+                  <option value="dropped">Dropped</option>
                </Status>
                <Rating>
                   {isEditing ? (

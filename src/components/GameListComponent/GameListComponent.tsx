@@ -3,6 +3,7 @@ import { EmptyState, GameListComponentWrapper } from './GameListComponent.styled
 import GameListItem from './GameListItem/GameListItem';
 import AddGameComponent from './AddGameComponent/AddGameComponent';
 import NavbarComponent from '../NavbarComponent/NavbarComponent';
+import ListSortingComponent from './ListSortingComponent/ListSortingComponent';
 import { GameItemMockDB } from '../../store/game-item/game-item.mock';
 import type { GameItem } from '../../store/game-item/game-item.model';
 import { dbService } from '../../services/dbService';
@@ -12,6 +13,7 @@ interface GameListComponentProps {}
 
 const GameListComponent: FC<GameListComponentProps> = () => {
    const [gameData, setGameData] = useState<GameItem[]>([]);
+   const [sortBy, setSortBy] = useState<string>('date-asc');
    const authStore = useAuthStore();
    const currentUser = authStore.user
 
@@ -89,20 +91,53 @@ const GameListComponent: FC<GameListComponentProps> = () => {
       }
    }
 
+   const handleSortingChange = (value: string) => {
+      setSortBy(value);
+   }
+
+   const displayedGames = [...gameData]
+      .filter((game) => {
+         if (sortBy === 'completed' || sortBy === 'playing' || sortBy === 'dropped') {
+            return game.status === sortBy;
+         }
+         return true;
+      })
+      .sort((a, b) => {
+         if (sortBy === 'rating-asc') {
+            return a.rating - b.rating;
+         }
+         if (sortBy === 'rating-desc') {
+            return b.rating - a.rating;
+         }
+         if (sortBy === 'date-asc') {
+            return (a._updatedAt?.toMillis() || 0) - (b._updatedAt?.toMillis() || 0);
+         }
+         if (sortBy === 'date-desc') {
+            return (b._updatedAt?.toMillis() || 0) - (a._updatedAt?.toMillis() || 0);
+         }
+         return 0;
+      });
+
    return (
       <GameListComponentWrapper>
          <NavbarComponent></NavbarComponent>
          <h1>{(authStore.user as any)?.name}'s Game List</h1>
          <AddGameComponent onGameAdded={handleGameAdded}></AddGameComponent>
 
+         <ListSortingComponent
+            onSortingChange={handleSortingChange}
+         ></ListSortingComponent>
+
          {gameData.length === 0 ? (
             <EmptyState>
                <p>Add games to your list</p>
             </EmptyState>
+         ) : displayedGames.length === 0 ? (
+            <EmptyState>
+               <p>No games in this category</p>
+            </EmptyState>
          ) : (
-         [...gameData]
-            .sort((a, b) => b.rating - a.rating)
-            .map((item) => (
+            displayedGames.map((item) => (
                <GameListItem 
                   key={item.__id}
                   id={item.__id}
